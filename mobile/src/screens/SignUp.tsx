@@ -52,22 +52,23 @@ export function SignUp() {
     navigation.goBack()
   }
 
- async function handleSingUp({ name, email, password}: FormDataProps) {
-  try{
-    const response =  await api.post('/users', { name, email, password });
-    console.log(response.data)
-  }catch(error){
-     const isAppError = error instanceof AppError;
-     const title = isAppError ? error.message : 'Não foi possível criar a conta. Tente novamente mais tarde.';
+  async function handleSingUp({ name, email, password }: FormDataProps) {
+    try {
+      const response = await api.post('/users', { name, email, password });
+      console.log(response.data)
+    } catch (error) {
+      console.log(error)
+      const isAppError = error instanceof AppError;
+      const title = isAppError ? error.message : 'Não foi possível criar a conta. Tente novamente mais tarde.';
 
-     toast.show({
-      placement: 'top',
-      render: () => (
-        <Toast bgColor='$red500' action='error'>
-          <ToastTitle color='$white'>{title}</ToastTitle>
-        </Toast>
-      )
-     });
+      toast.show({
+        placement: 'top',
+        render: () => (
+          <Toast bgColor='$red500' action='error'>
+            <ToastTitle color='$white'>{title}</ToastTitle>
+          </Toast>
+        )
+      });
     }
   }
 

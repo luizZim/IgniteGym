@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { VStack, Image, Center, Text, Heading, ScrollView, useToast, Toast, ToastTitle } from "@gluestack-ui/themed";
 
@@ -20,6 +21,7 @@ type FormData = {
 }
 
 export function SignIn() {
+  const [isLoading, setIsLoading] = useState(false);
 
   const { signIn } = useAuth();
 
@@ -35,11 +37,16 @@ export function SignIn() {
 
   async function handleSignIn({ email, password }: FormData) {
     try {
+      setIsLoading(true);
       await signIn(email, password);
-    } catch (error) {
-      const isAppError = error instanceof AppError;
 
+    } catch (error) {
+      console.log(error)
+      const isAppError = error instanceof AppError;
       const title = isAppError ? error.message : 'Não foi possivel entrar. Tente novamente mais tarde!'
+
+      setIsLoading(false);
+
       toast.show({
         placement: 'top',
         render: () => (
@@ -47,7 +54,8 @@ export function SignIn() {
             <ToastTitle color="$white">{title}</ToastTitle>
           </Toast>
         )
-      })
+      });
+
     }
 
   }
@@ -112,7 +120,11 @@ export function SignIn() {
 
 
 
-            <Button title="Acessar" onPress={handleSubmit(handleSignIn)} />
+            <Button
+              title="Acessar"
+              onPress={handleSubmit(handleSignIn)}
+              isLoading={isLoading}
+            />
           </Center>
 
           <Center flex={1} justifyContent="flex-end" mt="$4">
