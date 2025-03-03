@@ -13,10 +13,6 @@ import { Button } from "@components/Button";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 
 
-
-
-
-
 export function Exercise(){
   const navigation = useNavigation<AppNavigatorRoutesProps>()
 
